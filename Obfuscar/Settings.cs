@@ -54,8 +54,14 @@ namespace Obfuscar
 
             XmlMapping = XmlConvert.ToBoolean(vars.GetValue("XmlMapping", "false"));
             RegenerateDebugInfo = XmlConvert.ToBoolean(vars.GetValue("RegenerateDebugInfo", "false"));
-            KeyFile = vars.GetValue("KeyFile", null);
-            KeyFile = KeyFile == null ? null : Environment.ExpandEnvironmentVariables(KeyFile);
+
+            var keyFile = vars.GetValue("KeyFile", null);
+            KeyFile = keyFile == null ? null : Environment.ExpandEnvironmentVariables(keyFile);
+
+            var keyContainer = vars.GetValue("KeyContainer", null);
+            KeyContainer = keyContainer == null ? null : Environment.ExpandEnvironmentVariables(keyContainer);
+            if (KeyContainer != null && Type.GetType("System.MonoType") != null)
+                throw new ObfuscarException("Key containers are not supported for Mono.");
         }
 
         public bool RegenerateDebugInfo { get; }
@@ -93,5 +99,7 @@ namespace Obfuscar
         public bool UseKoreanNames { get; }
 
         public string KeyFile { get; }
+        
+        public string KeyContainer { get; }
     }
 }

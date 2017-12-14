@@ -76,8 +76,7 @@ namespace Obfuscar
             }
         }
 
-        public string KeyContainerName = null;
-        public byte[] keyPair;
+        private byte[] keyPair;
 
         public byte[] KeyPair
         {
@@ -86,8 +85,8 @@ namespace Obfuscar
                 if (keyPair != null)
                     return keyPair;
 
-                var lKeyFileName = vars.GetValue("KeyFile", null);
-                var lKeyContainerName = vars.GetValue("KeyContainer", null);
+                var lKeyFileName = Settings.KeyFile;
+                var lKeyContainerName = Settings.KeyContainer;
 
                 if (lKeyFileName == null && lKeyContainerName == null)
                     return null;
@@ -115,17 +114,16 @@ namespace Obfuscar
                 //if (keyvalue != null)
                 //	return keyvalue;
 
-                var lKeyFileName = vars.GetValue("KeyFile", null);
-                var lKeyContainerName = vars.GetValue("KeyContainer", null);
+                var lKeyFileName = settings.KeyFile;
+                var lKeyContainerName = settings.KeyContainer;
 
                 if (lKeyFileName == null && lKeyContainerName == null)
                     return null;
                 if (lKeyFileName != null && lKeyContainerName != null)
                     throw new ObfuscarException("'Key file' and 'Key container' properties cann't be setted together.");
 
-                if (vars.GetValue("KeyContainer", null) != null)
+                if (lKeyContainerName != null)
                 {
-                    KeyContainerName = vars.GetValue("KeyContainer", null);
                     if (Type.GetType("System.MonoType") != null)
                         throw new ObfuscarException("Key containers are not supported for Mono.");
                 }
