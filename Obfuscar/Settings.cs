@@ -62,6 +62,9 @@ namespace Obfuscar
             KeyContainer = keyContainer == null ? null : Environment.ExpandEnvironmentVariables(keyContainer);
             if (KeyContainer != null && Type.GetType("System.MonoType") != null)
                 throw new ObfuscarException("Key containers are not supported for Mono.");
+            
+            if (KeyFile != null && KeyContainer != null)
+                throw new ObfuscarException("'KeyFile' and 'KeyContainer' properties can't be setted together.");
         }
 
         public bool RegenerateDebugInfo { get; }
